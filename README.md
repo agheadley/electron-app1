@@ -100,4 +100,45 @@ npm run package (creates out/ and contains executable)
 
 ## file upload
 
+- Text only, from FileReader javascript API
 
+## file download 
+
+- Express in app.js
+
+## Vuetify
+
+https://vuetifyjs.com/en/getting-started/quick-start/
+
+```
+npm install --save vuetify
+
+src/plugins/vuetify.js :
+
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+
+Vue.use(Vuetify)
+
+const opts = {}
+
+export default new Vuetify(opts)
+
+
+main.js additions :
+
+import vuetify from './plugins/vuetify' // path to vuetify export
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  vuetify,
+  render: h => h(App)
+})
+
+main.html <head> :      // fonts and icons
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">

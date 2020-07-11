@@ -4,6 +4,7 @@
         <template v-if="isUploaded===false">
             <p>Upload file:</p>
         <input @change="getFile" type="file" id="input" multiple>
+        <v-file-input change="getFile" multiple label="File input"></v-file-input>
         </template>
          <template v-if="isUploaded===true">
               <p>file content :</p>
