@@ -13,7 +13,9 @@
         
         <p> </p>
         <button @click="getDownload">Generate Download</button>
-    
+        <v-alert type="info">
+             I'm an error alert.
+        </v-alert>
     
     </div>
 </template>

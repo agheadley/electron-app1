@@ -7,19 +7,17 @@
         <v-row justify="center">
           <v-col cols="auto">
             <v-card width="600" height="300" raised>
-              <v-card-title>Vuetify v-file-input Example:</v-card-title>
-              <br>
+              <v-card-title>Timetable Structure</v-card-title>
+               <v-spacer></v-spacer>
               <v-card-text>
-                <v-file-input
-                  accept=".csv"
-                  label="Click here to select a .csv file"
+                <v-file-input accept=".csv"
+                  label="Click here to upload a .csv file"
                   outlined
-                  v-model="chosenFile"
-                >
+                  v-model="chosenFile">
                 </v-file-input>
               </v-card-text>
               <v-card-actions>
-                <v-spacer></v-spacer>
+               <v-spacer></v-spacer>
                 <v-btn right @click="importTxt">Read File</v-btn>
               </v-card-actions>
             </v-card>
@@ -42,7 +40,7 @@
 
 
 export default {
-name: 'UploadFile',
+name: 'UploadCSV',
 data() {
     return{
         chosenFile:null,
@@ -61,7 +59,9 @@ methods: {
       reader.readAsText(this.chosenFile);
       reader.onload = () => {
         this.data = reader.result;
+        this.$emit('fromUploadFile',reader.result);
       }
+
     }
 }
 

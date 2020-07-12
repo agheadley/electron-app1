@@ -7,13 +7,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: require('./views/Home').default
+      name: 'Master',
+      component: require('./views/Master').default
     },
     {
-      path: '/route1',
-      name: 'Route1',
-      component: require('./views/Route1').default
+      path: '/block',
+      name: 'Block',
+      component: require('./views/Block').default
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: require('./views/Settings').default
     },
   ]
 })

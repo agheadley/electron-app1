@@ -13,7 +13,7 @@
 
       <v-spacer></v-spacer>
       <v-btn to="/" text color="primary">MASTER</v-btn>
-      <v-btn to="/route1" text color="error">BLOCK</v-btn>
+      <v-btn to="/block" text color="error">BLOCK</v-btn>
       <v-btn text disabled>STAFF</v-btn>
       <v-btn text disabled>ROOM</v-btn>
       
@@ -45,8 +45,8 @@
 
         <v-list>
           <v-list-item @click="()=>{}"> <v-list-item-title>DOWNLOAD</v-list-item-title></v-list-item>
-          <v-list-item @click="()=>{}"> <v-list-item-title>SETTINGS</v-list-item-title></v-list-item>
-          <v-list-item @click="()=>{}"> <v-list-item-title>PRINT</v-list-item-title></v-list-item>
+          <v-list-item to="/settings" @click="()=>{}"> <v-list-item-title>SETTINGS</v-list-item-title></v-list-item>
+          <v-list-item @click="print"> <v-list-item-title>PRINT</v-list-item-title></v-list-item>
           <v-list-item @click="quit"> <v-list-item-title>QUIT</v-list-item-title></v-list-item>
           
         </v-list>
@@ -77,7 +77,7 @@
       <v-spacer></v-spacer>
 
     <v-btn icon>
-        <v-icon>mdi-printer</v-icon>
+        <v-icon @click="print">mdi-printer</v-icon>
       </v-btn>
 
   </v-footer>
@@ -100,6 +100,10 @@ export default {
       fetch('http://localhost:3000/quit', {
         credentials: 'omit'
       });
+    },
+    print() {
+      console.log('print');
+      window.print();
     }    
   }  
 }
