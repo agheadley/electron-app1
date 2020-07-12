@@ -67,7 +67,10 @@ app.get('/download', function (req, res) {
     });
 });
 
-
+app.get('/quit', function (req, res) {
+    electron.app.quit();
+       
+});
 
 
 

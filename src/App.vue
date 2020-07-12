@@ -44,13 +44,11 @@
         </template>
 
         <v-list>
-          <v-list-item
-            v-for="n in 5"
-            :key="n"
-            @click="() => {}"
-          >
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
-          </v-list-item>
+          <v-list-item @click="()=>{}"> <v-list-item-title>DOWNLOAD</v-list-item-title></v-list-item>
+          <v-list-item @click="()=>{}"> <v-list-item-title>SETTINGS</v-list-item-title></v-list-item>
+          <v-list-item @click="()=>{}"> <v-list-item-title>PRINT</v-list-item-title></v-list-item>
+          <v-list-item @click="quit"> <v-list-item-title>QUIT</v-list-item-title></v-list-item>
+          
         </v-list>
       </v-menu>
     <!--</v-app-bar>-->
@@ -85,3 +83,24 @@
   </v-footer>
 </v-app>
 </template>
+
+
+<script>
+
+
+export default {
+  name: 'App',
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+    quit() {
+      fetch('http://localhost:3000/quit', {
+        credentials: 'omit'
+      });
+    }    
+  }  
+}
+</script>

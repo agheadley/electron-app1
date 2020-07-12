@@ -3,29 +3,28 @@
         <p>Route1.vue (Route: /route1)</p>
         <button @click="onClickGo">Go to /</button>
 
-        <upload-file :fileType="fileType" v-on:fromUploadFile="onUploadFile"></upload-file>
+        <download-file :fileContent="csv" :fileName="file"></download-file>
+        <p> </p>
+        <upload-file :fileType="csv" v-on:fromUploadFile="onUploadFile"></upload-file>
 
     </div>
 </template>
 
 <script>
-  
 import UploadFile from './../components/UploadFile.vue'
 
 import * as csv from './../scripts/csv'
 
 export default {
-name: 'Route1',
+name: 'Settings',
 components: {
     'upload-file':UploadFile
-    
 },
 data() {
     return{
         message:'Hello from route1 ...',
         file:'test.csv',
-        csv:encodeURIComponent('x,y,z'),
-        fileType:'.csv'
+        csv:encodeURIComponent('x,y,z')
     }
 },
 methods: {
@@ -42,10 +41,3 @@ methods: {
 }
 }
 </script>
-
-
-<style scoped>
-    p {
-        color: blue;
-    }
-</style>

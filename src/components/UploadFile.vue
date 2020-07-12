@@ -1,66 +1,69 @@
 <template>
     <div>
-        <p>UploadFile.vue component</p>
-        <template v-if="isUploaded===false">
-            <p>Upload file:</p>
-        <input @change="getFile" type="file" id="input" multiple>
-        <v-file-input change="getFile" multiple label="File input"></v-file-input>
-        </template>
-         <template v-if="isUploaded===true">
-              <p>file content :</p>
-             <p>{{fileContent}}</p>
-        </template>
+
+<!-- https://codepen.io/scottorgan/pen/LYYgYga -->    
+<v-main>
+      <v-container fill-height>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <v-card width="600" height="300" raised>
+              <v-card-title>Vuetify v-file-input Example:</v-card-title>
+              <br>
+              <v-card-text>
+                <v-file-input
+                  accept=".csv"
+                  label="Click here to select a .csv file"
+                  outlined
+                  v-model="chosenFile"
+                >
+                </v-file-input>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn right @click="importTxt">Read File</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col cols="auto">
+            <v-card width="600" height="300" raised>
+              <v-card-title>File contents:</v-card-title>
+              <v-card-text><p>{{ data }}</p></v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+
 
      </div>
 </template>
 
 <script>
 
-//https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
-
 
 export default {
 name: 'UploadFile',
 data() {
     return{
-        isUploaded:false,
-        fileContent:null
+        chosenFile:null,
+        data:null
     }
 },
-created() {
-},
+
 methods: {
-    getFile() {
-        this.file=document.getElementById('input').files[0];
-        console.log(this.file);
-        if (this.file) {
-            var reader = new FileReader();
-            reader.readAsText(this.file, "UTF-8");
-            reader.onload = (evt) => {
-                console.log(evt.target.result);
-                this.message=evt.target.result;
-                this.fileContent=evt.target.result;
-                this.isUploaded=true;
-                this.$emit('fromUploadFile',this.message);
-                
-            }
-            reader.onerror = function (evt) {
-                    console.log("error reading file");
-                    this.$emit('fromUploadFile','ERROR');
-            }  
-        }
+    importTxt() {
+      
+      if (!this.chosenFile) {this.data = "No File Chosen"}
+      var reader = new FileReader();
+      
+      // Use the javascript reader object to load the contents
+      // of the file in the v-model prop
+      reader.readAsText(this.chosenFile);
+      reader.onload = () => {
+        this.data = reader.result;
+      }
     }
 }
 
 }
 </script>
-
-
-<style scoped>
-    div {
-        border:1px solid black;
-    }
-    p {
-        color: blue;
-    }
-</style>
