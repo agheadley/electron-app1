@@ -1,9 +1,14 @@
 <template>
 
+
 <v-app>
 
-  <v-app-bar app>
-<v-toolbar-title>TT version1</v-toolbar-title>
+<v-app-bar app flat dark>
+    
+  
+
+
+ <v-toolbar-title>TT version1</v-toolbar-title>
 
       <v-spacer></v-spacer>
      
@@ -20,10 +25,19 @@
         </v-tabs>
       </template>
 
- <v-spacer></v-spacer>
- <v-menu left bottom >
+      <v-spacer></v-spacer>
+     
+
+      <v-menu
+        left
+        bottom
+      >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
@@ -37,10 +51,8 @@
         </v-list>
       </v-menu>
   
-
   </v-app-bar>
 
-  <!-- Sizes your content based upon application components -->
   <v-main>
 
     <!-- Provides the application the proper gutter -->
@@ -52,17 +64,11 @@
   </v-main>
 
   <v-footer app>
-    
- <v-toolbar-title>TT version1</v-toolbar-title>
- <v-spacer></v-spacer>
-  <v-btn icon @click="print">
-    <v-icon>mdi-printer</v-icon>
-  </v-btn>
-
-
+    <!-- -->
   </v-footer>
-</v-app>
 
+
+</v-app>
 </template>
 
 
@@ -73,7 +79,7 @@ export default {
   name: 'App',
   data() {
     return {
-      tabs:null
+
     }
   },
   methods: {
