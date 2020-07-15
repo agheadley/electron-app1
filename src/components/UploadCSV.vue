@@ -1,42 +1,71 @@
 <template>
-    <div>
+
+<v-card raised>
+
+<v-card-title>Timetable Structure</v-card-title>
+<v-spacer></v-spacer>
+
+
+<template v-if="isChosen===false">
+  <v-card-text>
+<v-file-input accept=".csv"
+  label="Click here to upload a .csv file"
+  outlined
+  v-model="chosenFile">
+</v-file-input>
+</v-card-text>
+<v-card-actions>
+<v-spacer></v-spacer>
+<v-btn right @click="importTxt">Read File</v-btn>
+</v-card-actions>
+</template>
+
+<template v-if="isChosen===true">
+
+<template v-if="isOK===true">
+<v-card-text>
+ <v-alert type="success">Valid structure found.</v-alert>
+   <v-data-table
+    :headers="ttHeaders"
+    :items="ttStructure"
+    :items-per-page="10"
+    class="elevation-1"
+  ></v-data-table>
+</v-card-text>
+<v-card-actions>
+<v-spacer></v-spacer>
+<v-btn cancel @click="isChosen=false">Cancel</v-btn>
+<v-btn right @click="updateStructure">Accept</v-btn>
+</v-card-actions>
+</template>
+
+<template v-if="isOK===false">
+<v-card-text>
+ <v-alert type="error">
+      Invalid Timetable Structure. Please upload a different file.
+    </v-alert>
+</v-card-text>
+<v-card-actions>
+<v-spacer></v-spacer>
+<v-btn cancel @click="isChosen=false">Cancel</v-btn>
+</v-card-actions>
+</template>
+
+
+</template>
+
+</v-card>
+
+
+
 
 <!-- https://codepen.io/scottorgan/pen/LYYgYga -->    
-<v-main>
-      <v-container fill-height>
-        <v-row justify="center">
-          <v-col cols="auto">
-            <v-card width="600" height="300" raised>
-              <v-card-title>Timetable Structure</v-card-title>
-               <v-spacer></v-spacer>
-              <v-card-text>
-                <v-file-input accept=".csv"
-                  label="Click here to upload a .csv file"
-                  outlined
-                  v-model="chosenFile">
-                </v-file-input>
-              </v-card-text>
-              <v-card-actions>
-               <v-spacer></v-spacer>
-                <v-btn right @click="importTxt">Read File</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col cols="auto">
-            <v-card width="600" height="300" raised>
-              <v-card-title>File contents:</v-card-title>
-              <v-card-text><p>{{ data }}</p></v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
 
-
-     </div>
 </template>
 
 <script>
+
+import * as csv from './../scripts/csv'
 
 
 export default {
@@ -44,7 +73,12 @@ name: 'UploadCSV',
 data() {
     return{
         chosenFile:null,
-        data:null
+        data:null,
+        headers:null,
+        isChosen:false,
+        isOK:false,
+        ttHeaders:null,
+        ttStructure:null,
     }
 },
 
@@ -59,9 +93,33 @@ methods: {
       reader.readAsText(this.chosenFile);
       reader.onload = () => {
         this.data = reader.result;
-        this.$emit('fromUploadFile',reader.result);
+        console.log('UploadCSV.vue :');
+        console.log(this.data);
+        let response=csv.readCSV(this.data,',');
+        console.log(response.data);
+
+
+        if(response.isOK) {
+          let headerArr=Object.keys(response.data[0]);
+          this.ttHeaders=[];
+          for(let item of headerArr) {
+            this.ttHeaders.push({text:item,value:item,sortable:true});
+          }
+          this.ttStructure=response.data;
+          console.log(this.ttStructure[0]);
+
+        }
+
+
+        this.isChosen=true;
+        this.isOK=response.isOK;
+
+        
       }
 
+    },
+    updateStructure() {
+      this.$emit('fromUploadFile',reader.result);
     }
 }
 

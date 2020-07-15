@@ -1,12 +1,14 @@
 <template>
-    <div>
-    <v-card outlined>
-    <v-card-title>Block</v-card-title>
-
     
-    </v-card>
-        
-    </div>
+    <v-container fluid fill-height>
+    
+    <v-row no-gutters>
+      <div style="border:1px solid black">x</div>
+    </v-row>
+
+    </v-container>
+
+
 </template>
 
 <script>

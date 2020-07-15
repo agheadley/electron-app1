@@ -2,7 +2,7 @@
 
 <v-app>
 
-  <v-app-bar app>
+  <v-app-bar app class="d-print-none">
 <v-toolbar-title>TT version1</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -30,6 +30,8 @@
 
         <v-list>
           <v-list-item @click="()=>{}"> <v-list-item-title>DOWNLOAD</v-list-item-title></v-list-item>
+          <v-list-item @click="()=>{}"> <v-list-item-title>UPLOAD</v-list-item-title></v-list-item>
+
           <v-list-item to="/settings" @click="()=>{}"> <v-list-item-title>SETTINGS</v-list-item-title></v-list-item>
           <v-list-item @click="print"> <v-list-item-title>PRINT</v-list-item-title></v-list-item>
           <v-list-item @click="quit"> <v-list-item-title>QUIT</v-list-item-title></v-list-item>
@@ -51,9 +53,9 @@
     </v-container>
   </v-main>
 
-  <v-footer app>
+  <v-footer app class="d-print-none">
     
- <v-toolbar-title>TT version1</v-toolbar-title>
+ <v-toolbar-title>AGH</v-toolbar-title>
  <v-spacer></v-spacer>
   <v-btn icon @click="print">
     <v-icon>mdi-printer</v-icon>
@@ -84,6 +86,7 @@ export default {
     },
     print() {
       console.log('print');
+
       window.print();
     }    
   }  

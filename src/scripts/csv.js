@@ -1,26 +1,44 @@
+// timetable structure headers
+let headerArr=['day','per','week','id','block','visible'];
+
 let readCSV=(csvText,delim) =>{
-    console.log('csv.readCSV ...');
+    //console.log('csv.readCSV ...');
 
     let arr=CSVToArray(csvText,delim);
-    console.log(arr);
+    //console.log(arr);
     
     let out={isOK:false,data:[]};
     if(arr.length>1) {
         let headers=arr[0];
+        console.log('headers',headers);
         for(let i=1;i<arr.length;i++) {
             let obj={};
             for(let j=0;j<headers.length;j++) {
-                obj[headers[j]]=arr[i][j];
+                obj[(headers[j]+' ').trim().toLowerCase()]=arr[i][j];
             }
             out.data.push(obj);
         }
-        out.isOK=true;
+        out.isOK=checkHeaders(headers);
     }
-    console.log(out.isOK,out.data);
+    //console.log(out.isOK,out.data);
+    //console.log('scripts/csv.js isOK :'+out.isOK);
     return out;
 }
 
 export {readCSV}
+
+let checkHeaders=(headers)=>{
+    console.log(headers);
+    let out=true;
+    for(let item of headers) {
+        item=(item+' ').trim().toLowerCase();
+        if(headerArr.indexOf(item)===-1) out=false;
+        console.log(item,headerArr.indexOf(item));
+    }
+    return out;
+    
+    
+}
 
 // ref: http://stackoverflow.com/a/1293163/2343
     // This will parse a delimited string into an array of

@@ -6,7 +6,6 @@
     <v-container>    
     <upload-csv v-on:fromUploadFile="onUploadFile"></upload-csv>
     </v-container>
-    
         
     </div>
 </template>
@@ -32,7 +31,7 @@ methods: {
     
     onUploadFile(value) {
         console.log('uploaded file data: '+value)
-        let response=csv.readCSV(value,',');
+        //let response=csv.readCSV(value,',');
         
     },
 
