@@ -39,7 +39,7 @@ app.post('/test',jsonParser,(req, res) => {
     res.end(JSON.stringify(out));
 });
 
-// test post request.
+// test download request
 app.post('/generateDownload',jsonParser,(req, res) => {
     console.log('req.body: ',req.body);
     

@@ -16,6 +16,16 @@ export default new Router({
       component: require('./views/Block').default
     },
     {
+      path: '/staff',
+      name: 'Staff',
+      component: require('./views/Staff').default
+    },
+    {
+      path: '/room',
+      name: 'Room',
+      component: require('./views/Room').default
+    },
+    {
       path: '/settings',
       name: 'Settings',
       component: require('./views/Settings').default

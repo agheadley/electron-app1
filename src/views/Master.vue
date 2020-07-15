@@ -1,22 +1,15 @@
 <template>
-    <div>
+<v-container fluid fill-height>
 
-    <v-card outlined>
-         <v-toolbar flat>
-         <v-toolbar-title>Master</v-toolbar-title>
-         <v-spacer></v-spacer>
-          <v-toolbar-title>model title</v-toolbar-title>
-         <v-spacer></v-spacer>
-         <v-text-field solo
-            label="Search"
-            prepend-inner-icon="mdi-magnify"
-          ></v-text-field>
-         </v-toolbar>
-    <v-container fluid>
-    </v-container>
-    </v-card>
-        
-    </div>
+
+
+
+
+
+
+
+    
+</v-container>
 </template>
 
 <script>

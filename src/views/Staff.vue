@@ -21,16 +21,12 @@ export default {
 name: 'Block',
 data() {
     return{
-        message:'settings file'
+        message:'staff file'
     }
 },
 methods: {
     
-    onUploadFile(value) {
-        console.log('uploaded file data: '+value)
-        let response=csv.readCSV(value,',');
-        
-    },
+   
 
 
 }
