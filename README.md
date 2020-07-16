@@ -137,8 +137,14 @@ new Vue({
   vuetify,
   render: h => h(App)
 })
+```
 
 main.html <head> :      // fonts and icons
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+
+## Vuex
+
+npm install --save vuex
+

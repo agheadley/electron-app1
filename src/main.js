@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import router from './router'
 import App from './App'
+import store from './store'
 
 import vuetify from './plugins/vuetify' // path to vuetify export
 
@@ -13,6 +14,7 @@ new Vue({
   el: '#app',
   router,
   vuetify,
+  store,
   render: h => h(App)
 })
 

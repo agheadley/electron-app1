@@ -11,7 +11,7 @@ Updating settings can invalidate current timetables.
 </v-alert>
 </v-container>
 <v-container>
-<upload-csv v-on:fromUploadFile="onUploadFile"></upload-csv>
+<upload-csv v-on:fromUploadFile="onUploadTimetableStructure"></upload-csv>
 </v-container>
 
 
@@ -20,6 +20,7 @@ Updating settings can invalidate current timetables.
     
 </v-container>
 </div>
+
 <!--
     <div>
     <v-card outlined>
@@ -52,13 +53,28 @@ data() {
 },
 methods: {
     
-    onUploadFile(data) {
+    onUploadTimetableStructure(data) {
         console.log('Settings.vue');
         console.log(JSON.stringify(data));
         
         //let weeks=new Set([...data.map(el=>el.week)]);
         let weeks=[... new Set(data.map(el=>el.week))];
         console.log(weeks);
+
+        this.$store.dispatch('setTimetableWeeks',weeks);
+
+        let blankRow=[];
+
+        for(let item of data) {
+            let obj={id:null,title:null,class:' ',staff:" ",room:" "};
+            if(item.visible==="YES") { 
+                obj.id=item.id;
+                obj.title=item.day+item.per;
+                blankRow.push(obj);
+            }
+        }
+        this.$store.dispatch('setTimetableRow',blankRow);
+
         
     },
 

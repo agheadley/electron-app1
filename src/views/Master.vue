@@ -1,21 +1,46 @@
 <template>
-<v-container fluid fill-height style="overflow-x:scroll;">
+
+
+<v-container fluid>
+
+
+
+ <v-row align="center">
+<v-col class="d-flex" cols="12" sm="4">
+Timetable Title
+</v-col>
+
+<v-col class="d-flex" cols="12" sm="4">
+
+ <v-select
+          :items="weeks"
+          label="Timetable Week"
+></v-select>
+</v-col>
+</v-row>
+
+
+<v-row>
 
 
 <table cellspacing="0">
 <tr>
-<td v-for="(item,i) in test"><input class="class-details" :value="item"/></td>
+<td v-for="(item,i) in blankRow"><input class="class-details" :value="item.title"/></td>
+</tr>
+
+<tr>
+<td v-for="(item,i) in blankRow"><input class="class-details" :value="item.class"/></td>
 </tr>
 <tr>
-<td v-for="(item,i) in test" ><input class="class-details staff-details" :value="item"/></td>
+<td v-for="(item,i) in blankRow"><input class="class-details staff-details" :value="item.staff"/></td>
 </tr>
 <tr>
-<td v-for="(item,i) in test2" ><input class="class-details room-details" :value="item"/></td>
+<td v-for="(item,i) in blankRow"><input class="class-details room-details" :value="item.room"/></td>
 </tr>
 </table>
 
 
-
+</v-row>
 
     
 </v-container>
@@ -34,6 +59,11 @@ data() {
         test:['1','2','3','4','5','6'],
         test2:[0]
     }
+},
+computed : {
+    //weeks() { return this.$store.getters.timetableWeeks}
+    weeks() {return this.$store.state.timetableWeeks},
+    blankRow() {return this.$store.state.timetableRow}
 },
 created() {
     for(let col=0;col<50;col++) {
