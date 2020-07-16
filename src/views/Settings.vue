@@ -1,4 +1,26 @@
 <template>
+<div>
+<v-container fluid fill-height>
+
+<v-container>
+<h3>Settings</h3>
+<br/>
+<v-spacer></v-spacer>
+<v-alert type="warning">
+Updating settings can invalidate current timetables.
+</v-alert>
+</v-container>
+<v-container>
+<upload-csv v-on:fromUploadFile="onUploadFile"></upload-csv>
+</v-container>
+
+
+
+
+    
+</v-container>
+</div>
+<!--
     <div>
     <v-card outlined>
     <v-card-title>Settings</v-card-title>
@@ -8,18 +30,19 @@
     </v-container>
         
     </div>
+-->
 </template>
 
 <script>
   
-import UploadCSV from './../components/UploadCSV.vue'
+import UploadTTStructureCSV from './../components/UploadTTStructureCSV.vue'
 
 import * as csv from './../scripts/csv'
 
 export default {
 name: 'Settings',
 components: {
-    'upload-csv':UploadCSV
+    'upload-csv':UploadTTStructureCSV
     
 },
 data() {
@@ -29,9 +52,13 @@ data() {
 },
 methods: {
     
-    onUploadFile(value) {
-        console.log('uploaded file data: '+value)
-        //let response=csv.readCSV(value,',');
+    onUploadFile(data) {
+        console.log('Settings.vue');
+        console.log(JSON.stringify(data));
+        
+        //let weeks=new Set([...data.map(el=>el.week)]);
+        let weeks=[... new Set(data.map(el=>el.week))];
+        console.log(weeks);
         
     },
 

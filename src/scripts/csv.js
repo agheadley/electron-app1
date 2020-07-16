@@ -1,5 +1,6 @@
 // timetable structure headers
-let headerArr=['day','per','week','id','block','visible'];
+let TTStructureHeaderArr=['day','per','week','id','block','visible'];
+
 
 let readCSV=(csvText,delim) =>{
     //console.log('csv.readCSV ...');
@@ -32,8 +33,8 @@ let checkHeaders=(headers)=>{
     let out=true;
     for(let item of headers) {
         item=(item+' ').trim().toLowerCase();
-        if(headerArr.indexOf(item)===-1) out=false;
-        console.log(item,headerArr.indexOf(item));
+        if(TTStructureHeaderArr.indexOf(item)===-1) out=false;
+        console.log(item,TTStructureHeaderArr.indexOf(item));
     }
     return out;
     

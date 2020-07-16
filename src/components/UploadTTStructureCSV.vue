@@ -69,7 +69,7 @@ import * as csv from './../scripts/csv'
 
 
 export default {
-name: 'UploadCSV',
+name: 'UploadTTStructureCSV',
 data() {
     return{
         chosenFile:null,
@@ -119,7 +119,7 @@ methods: {
 
     },
     updateStructure() {
-      this.$emit('fromUploadFile',reader.result);
+      this.$emit('fromUploadFile',this.ttStructure);
     }
 }
 
