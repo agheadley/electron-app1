@@ -8,7 +8,7 @@
       <v-spacer></v-spacer>
      
       <template v-slot:extension>
-        <v-tabs
+        <v-tabs color="indigo"
           v-model="tabs"
         >
           <v-tab href="#" to="/">master</v-tab>
@@ -51,17 +51,26 @@
       <!-- If using vue-router -->
       <router-view></router-view>
     </v-container>
+
   </v-main>
 
   <v-footer app class="d-print-none">
     
  <v-toolbar-title>AGH</v-toolbar-title>
  <v-spacer></v-spacer>
+ 
+ <v-item-group>
+   <v-row>
+     <v-col>
+     <settings-dialog></settings-dialog>
+     </v-col>
+     <v-col>
   <v-btn icon @click="print">
     <v-icon>mdi-printer</v-icon>
   </v-btn>
-
-
+     </v-col>
+  </v-row>
+ </v-item-group>
   </v-footer>
 </v-app>
 
@@ -70,9 +79,14 @@
 
 <script>
 
+import SettingsDialog from './components/SettingsDialog.vue'
+
 
 export default {
   name: 'App',
+  components: {
+    'settings-dialog':SettingsDialog
+  },
   data() {
     return {
       tabs:null

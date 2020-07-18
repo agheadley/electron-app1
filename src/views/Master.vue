@@ -5,27 +5,47 @@
 
 
 
- <v-row align="center">
-<v-col class="d-flex" cols="12" sm="4">
-Timetable Title
+<v-row align="baseline">
+<v-col class="d-flex" cols="3">
+ <v-text-field
+            v-model="timetableName"
+            label="Timetable Name"
+            outlined
+            readonly
+          ></v-text-field>
 </v-col>
 
-<v-col class="d-flex" cols="12" sm="4">
+<v-col class="d-flex" cols="2">
 
  <v-select
           :items="weeks"
           label="Timetable Week"
+          outlined
 ></v-select>
 </v-col>
+<v-col class="d-flex" cols="1">
+    <p>Year Group</p>
+</v-col>
+<v-col class="d-flex" cols="6">
+ <v-btn-toggle v-model="toggle_weeks" mandatory title="cww" color="indigo">
+     <v-btn v-for="(item,i) in years">{{item}}</v-btn>
+ </v-btn-toggle>
+
+</v-col>
+<!--
+<v-col class="d-flex" cols="12" sm="2">
+<v-alert type="info">Week : {{weeks[toggle_weeks]}}</v-alert>
+</v-col>
+-->
 </v-row>
 
 
 <v-row>
-
+<div class="tt-row">
 
 <table cellspacing="0">
 <tr>
-<td v-for="(item,i) in blankRow"><input class="class-details" :value="item.title"/></td>
+<td v-for="(item,i) in blankRow" class="title-details">{{item.title}}</td>
 </tr>
 
 <tr>
@@ -39,7 +59,7 @@ Timetable Title
 </tr>
 </table>
 
-
+</div>
 </v-row>
 
     
@@ -56,8 +76,10 @@ name: 'Master',
 data() {
     return{
         message:'settings file',
-        test:['1','2','3','4','5','6'],
-        test2:[0]
+        toggle_weeks:0,
+        timetableNameRules: [v => v.length <= 25 || 'Max 25 characters'],
+        timetableName:'Sample-timetable',
+        years:['7','6','5','4','3','2','1','0','X'],
     }
 },
 computed : {
@@ -66,11 +88,6 @@ computed : {
     blankRow() {return this.$store.state.timetableRow}
 },
 created() {
-    for(let col=0;col<50;col++) {
-        this.test[col]="Mai.Bs1";
-        this.test2[col]="Itai."+col;
-        
-    }
 },
 methods: {
     
@@ -86,13 +103,30 @@ methods: {
 </script>
 
 <style scoped>
+.tt-row {
+    overflow-x:auto;
+}
+
+.tt-row::-webkit-scrollbar {
+    display: none;
+  /*display: auto;*/
+}
 
 table {
   border-collapse: collapse;
 }
 
-table, th, td {
+table,th,td {
   border: 1px solid gray;
+}
+
+.title-details {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size:10px;
+    width:36px;
+    height:22px;
+    text-align:center;
+    font-weight:bold;
 }
 
 .class-details {

@@ -1,6 +1,10 @@
 // timetable structure headers
 let TTStructureHeaderArr=['day','per','week','id','block','visible'];
 
+// year groups
+let years=['7','6','5','4','3','2','1','0','X'];
+
+
 
 let readCSV=(csvText,delim) =>{
     //console.log('csv.readCSV ...');
