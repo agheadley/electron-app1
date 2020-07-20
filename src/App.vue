@@ -29,12 +29,13 @@
         </template>
 
         <v-list>
-          <v-list-item @click="()=>{}"> <v-list-item-title>DOWNLOAD</v-list-item-title></v-list-item>
-          <v-list-item @click="()=>{}"> <v-list-item-title>UPLOAD</v-list-item-title></v-list-item>
-
-          <v-list-item to="/settings" @click="()=>{}"> <v-list-item-title>SETTINGS</v-list-item-title></v-list-item>
-          <v-list-item @click="print"> <v-list-item-title>PRINT</v-list-item-title></v-list-item>
-          <v-list-item @click="quit"> <v-list-item-title>QUIT</v-list-item-title></v-list-item>
+            <v-list-item><download-dialog></download-dialog></v-list-item>
+           <v-list-item><export-dialog></export-dialog></v-list-item>
+          
+          <v-list-item><import-dialog></import-dialog></v-list-item>
+          <v-list-item><v-row justify="center"><v-btn text color="indigo" @click="print">PRINT</v-btn></v-row></v-list-item>
+          <v-list-item><exit-dialog></exit-dialog></v-list-item>
+          
           
         </v-list>
       </v-menu>
@@ -45,6 +46,7 @@
   <!-- Sizes your content based upon application components -->
   <v-main>
 
+    
     <!-- Provides the application the proper gutter -->
     <v-container fluid>
 
@@ -62,7 +64,7 @@
  <v-item-group>
    <v-row>
      <v-col>
-     <settings-dialog></settings-dialog>
+       <settings-dialog></settings-dialog>
      </v-col>
      <v-col>
   <v-btn icon @click="print">
@@ -80,16 +82,25 @@
 <script>
 
 import SettingsDialog from './components/SettingsDialog.vue'
-
+import ExitDialog from './components/ExitDialog.vue'
+import ImportDialog from './components/ImportDialog.vue'
+import ExportDialog from './components/ExportDialog.vue'
+import DownloadDialog from './components/DownloadDialog.vue'
 
 export default {
   name: 'App',
   components: {
-    'settings-dialog':SettingsDialog
+    'settings-dialog':SettingsDialog,
+    'exit-dialog':ExitDialog,
+    'import-dialog':ImportDialog,
+    'export-dialog':ExportDialog,
+    'download-dialog':DownloadDialog,
+    
+    
   },
   data() {
     return {
-      tabs:null
+      tabs:null,
     }
   },
   methods: {
@@ -100,8 +111,11 @@ export default {
     },
     print() {
       console.log('print');
-
       window.print();
+    },
+    openSettings() {
+      console.log('open settings');
+      this.isSettings=true;
     }    
   }  
 }

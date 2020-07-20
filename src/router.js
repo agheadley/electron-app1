@@ -25,10 +25,5 @@ export default new Router({
       name: 'Room',
       component: require('./views/Room').default
     },
-    {
-      path: '/settings',
-      name: 'Settings',
-      component: require('./views/Settings').default
-    },
   ]
 })

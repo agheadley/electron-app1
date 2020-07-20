@@ -23,20 +23,15 @@
           outlined
 ></v-select>
 </v-col>
-<v-col class="d-flex" cols="1">
+<v-col class="d-flex d-print-none" cols="1" >
     <p>Year Group</p>
 </v-col>
-<v-col class="d-flex" cols="6">
+<v-col class="d-flex d-print-none" cols="6">
  <v-btn-toggle v-model="toggle_weeks" mandatory title="cww" color="indigo">
      <v-btn v-for="(item,i) in years">{{item}}</v-btn>
  </v-btn-toggle>
 
 </v-col>
-<!--
-<v-col class="d-flex" cols="12" sm="2">
-<v-alert type="info">Week : {{weeks[toggle_weeks]}}</v-alert>
-</v-col>
--->
 </v-row>
 
 
