@@ -1,49 +1,4 @@
-// timetable structure headers
-let TTStructureHeaderArr=['day','per','week','id','block','visible'];
 
-// year groups
-let years=['7','6','5','4','3','2','1','0','X'];
-
-
-
-let readCSV=(csvText,delim) =>{
-    //console.log('csv.readCSV ...');
-
-    let arr=CSVToArray(csvText,delim);
-    //console.log(arr);
-    
-    let out={isOK:false,data:[]};
-    if(arr.length>1) {
-        let headers=arr[0];
-        console.log('headers',headers);
-        for(let i=1;i<arr.length;i++) {
-            let obj={};
-            for(let j=0;j<headers.length;j++) {
-                obj[(headers[j]+' ').trim().toLowerCase()]=arr[i][j];
-            }
-            out.data.push(obj);
-        }
-        out.isOK=checkHeaders(headers);
-    }
-    //console.log(out.isOK,out.data);
-    //console.log('scripts/csv.js isOK :'+out.isOK);
-    return out;
-}
-
-export {readCSV}
-
-let checkHeaders=(headers)=>{
-    console.log(headers);
-    let out=true;
-    for(let item of headers) {
-        item=(item+' ').trim().toLowerCase();
-        if(TTStructureHeaderArr.indexOf(item)===-1) out=false;
-        console.log(item,TTStructureHeaderArr.indexOf(item));
-    }
-    return out;
-    
-    
-}
 
 // ref: http://stackoverflow.com/a/1293163/2343
     // This will parse a delimited string into an array of
@@ -131,3 +86,5 @@ let checkHeaders=(headers)=>{
         // Return the parsed data.
         return( arrData );
     }
+
+export {CSVToArray}

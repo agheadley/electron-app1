@@ -104,19 +104,17 @@ export default {
     }
   },
   methods: {
+    /* accessed via exit dialog now
     quit() {
       fetch('http://localhost:3000/quit', {
         credentials: 'omit'
       });
     },
+    */
     print() {
       console.log('print');
       window.print();
-    },
-    openSettings() {
-      console.log('open settings');
-      this.isSettings=true;
-    }    
+    },    
   }  
 }
 </script>

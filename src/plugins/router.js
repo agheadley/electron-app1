@@ -8,22 +8,22 @@ export default new Router({
     {
       path: '/',
       name: 'Master',
-      component: require('./views/Master').default
+      component: require('./../views/Master').default
     },
     {
       path: '/block',
       name: 'Block',
-      component: require('./views/Block').default
+      component: require('./../views/Block').default
     },
     {
       path: '/staff',
       name: 'Staff',
-      component: require('./views/Staff').default
+      component: require('./../views/Staff').default
     },
     {
       path: '/room',
       name: 'Room',
-      component: require('./views/Room').default
+      component: require('./../views/Room').default
     },
   ]
 })

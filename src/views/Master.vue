@@ -7,12 +7,12 @@
 
 <v-row align="baseline">
 <v-col class="d-flex" cols="3">
- <v-text-field
-            v-model="timetableName"
-            label="Timetable Name"
-            outlined
-            readonly
-          ></v-text-field>
+<v-text-field
+    v-model="timetableName"
+    label="Timetable Name"
+    outlined
+    readonly>
+</v-text-field>
 </v-col>
 
 <v-col class="d-flex" cols="2">
