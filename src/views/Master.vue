@@ -73,16 +73,15 @@ data() {
         message:'settings file',
         toggle_weeks:0,
         timetableNameRules: [v => v.length <= 25 || 'Max 25 characters'],
-        timetableName:'Sample-timetable',
+        //timetableName:null,
         years:['7','6','5','4','3','2','1','0','X'],
     }
 },
 computed : {
     //weeks() { return this.$store.getters.timetableWeeks}
     weeks() {return this.$store.state.timetableWeeks},
-    blankRow() {return this.$store.state.timetableRow}
-},
-created() {
+    blankRow() {return this.$store.state.timetableRow},
+    timetableName() {return this.$store.state.timetableName},
 },
 methods: {
     

@@ -4,8 +4,23 @@ import * as csv from './csv'
 let TTStructureHeaderArr=['day','per','week','id','block','visible'];
 
 // year groups
-let years=['7','6','5','4','3','2','1','0','X'];
-
+let schoolYears=[
+    {NCYear:"13",SchoolCode:"13"},
+    {NCYear:"12",SchoolCode:"12"},
+    {NCYear:"11",SchoolCode:"11"},
+    {NCYear:"10",SchoolCode:"10"},
+    {NCYear:"9",SchoolCode:"9"},
+    {NCYear:"8",SchoolCode:"8"},
+    {NCYear:"7",SchoolCode:"7"},
+    {NCYear:"6",SchoolCode:"6"},
+    {NCYear:"Special1",SchoolCode:"X"},
+    {NCYear:"Special2",SchoolCode:""},
+    {NCYear:"Special3",SchoolCode:""},
+    {NCYear:"Special4",SchoolCode:""},
+ 
+];
+    
+    
 
 
 let readTimetableStructure=(csvText,delim) =>{
@@ -35,7 +50,29 @@ let readTimetableStructure=(csvText,delim) =>{
     
 }
 
-export {readTimetableStructure}
+let checkValidYears=(years)=> {
+     //console.log(years);
+      let isValid=true;
+      for(let item of years) {
+        let txt=(' '+item.SchoolCode).trim();
+        txt=txt.replace(/ /g, "");
+        if(txt.length>2) isValid=false;
+      }
+
+      let tmp1=[... new Set(years.map(el=>el.SchoolCode))];
+      tmp1=tmp1.filter(el=>el!== '');
+      let tmp2=years.map(el=>el.SchoolCode);
+      tmp2=tmp2.filter(el=>el!== '');
+      //console.log(tmp1,tmp2);
+      if(tmp1.length!==tmp2.length) isValid=false;
+      //console.log(isValid);
+      return isValid;
+
+}
+
+export {readTimetableStructure,schoolYears,checkValidYears}
+
+
 
 let processTimetableStructure=(data,headers)=> {
     let structure={isValid:true,displayHeaders:['id','title','week','block'],weeks:[],blocks:[],data:[]};
@@ -45,6 +82,7 @@ let processTimetableStructure=(data,headers)=> {
     let isSingleWeek=false;
 
     structure.weeks=[... new Set(data.map(el=>el.week))];
+    
     console.log(structure.weeks,structure.weeks.length,structure.weeks.indexOf(''));
     if(structure.weeks.length===1) {
         console.log("found only one week type, setting all to week 'A'");
@@ -53,7 +91,13 @@ let processTimetableStructure=(data,headers)=> {
         structure.isValid=false;
         console.log("error,found unlabelled week entries.");
     }
-    structure.block=[... new Set(data.map(el=>el.block))];
+
+    
+
+    structure.blocks=[... new Set(data.map(el=>el.block))];
+    structure.blocks=structure.blocks.filter(el => el !== '');
+    structure.blocks.sort();
+    
 
     for(let item of data) {
         let obj={id:null,title:null,block:null,week:null,class:' ',staff:" ",room:" "};

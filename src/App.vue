@@ -103,6 +103,9 @@ export default {
       tabs:null,
     }
   },
+  created() {
+    this.$store.commit('initialiseStore');
+  },
   methods: {
     /* accessed via exit dialog now
     quit() {
