@@ -6,12 +6,10 @@
   </template>
 
   <v-card>
-  <v-card-text>
-  <br/>
 
-<!-- timetable name -->
-  
-  <h3>Timetable Name</h3>
+  <v-card>
+  <v-card-title>Timetable Name</v-card-title>
+  <v-card-text>
   <br/>
   <v-text-field
     v-model="timetableName"
@@ -19,32 +17,30 @@
     description="Name of current timetable"
     outlined
     :rules="timetableNameRules"
-    counter="25">
+    counter="25"
+  >
   </v-text-field>
-  <br/>
-  <v-row>
-      <v-spacer></v-spacer>
-      <v-btn right @click="storeName">Store</v-btn>
-  </v-row>
+  </v-card-text>
+  </v-card>
 
-<!-- /timetable name -->
-  
+  <v-card>
+  <v-card-title>Timetable Structure</v-card-title>
 
-<!-- timetable structure -->
-  
-  <h3>Timetable Structure</h3>
-  <br/>
+
   <template v-if="isValidStructure===false">
+    <v-card-text>
     <br/>
     <v-file-input accept=".csv" 
       label="Click here to upload a .csv file"
       outlined
       v-model="chosenFile">
     </v-file-input>
-    <v-row>
+    </v-card-text>
+    <v-card-actions>
     <v-spacer></v-spacer>
     <v-btn right @click="importFile">Read File</v-btn>
-    </v-row>
+    </v-card-actions>
+
      <v-snackbar v-model="snackbarStructureError" timeout="5000">
       {{ snackbarStructureErrorText }}
       <template v-slot:action="{ attrs }">
@@ -57,10 +53,12 @@
         </v-btn>
       </template>
     </v-snackbar>
+
   </template>
 
   <template v-if="isValidStructure===true">
 
+      <v-card-text>
       <v-alert type="success">Valid structure found.</v-alert>
       <v-data-table
         :headers="displayHeaders"
@@ -68,45 +66,23 @@
         :items-per-page="5"
         class="elevation-1">
       </v-data-table>
-      <br/>
-      <v-row>
+      </v-card-text>
+      <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn cancel @click="cancelStructure">Cancel</v-btn>
-      </v-row>
+      <v-btn cancel @click="isValidStructure=false">Cancel</v-btn>
+      <v-btn right @click="updateStructure">Accept</v-btn>
+      </v-card-actions>
+    
     
   </template>
-
-  <!-- /timetable structure -->
   
-  <!-- block colours -->
-  <br/>
-  <h3>Block Colours</h3>
-  <br/>
-  <template v-if="!isBlocks">
-    <v-alert type="warning">No blocks stored in timetable structure. Update if necessary.</v-alert>
-  </template>
-  <template v-if="isBlocks">
-  <br/>
-  <v-row>
-  <v-col>
-     <v-radio-group v-model="radioBlockColour" :mandatory="true">
-      <v-radio label="Radio 1" value="radio-1"></v-radio><span>XXX</span>
-      <v-radio label="Radio 2" value="radio-2"></v-radio>
-    </v-radio-group>
-  </v-col>
-  <v-col><v-color-picker v-model="color"></v-color-picker></v-col>
-  </v-row>
-  <v-row>
-      <v-spacer></v-spacer>
-      <v-btn right @click="storeName">Store</v-btn>
-  </v-row>
-  </template>
-  
-<!-- /block colours -->
+  </v-card>
 
-</v-card-text>
+
+
 <v-card-actions>
-<v-btn color="indigo" text @click="closeDialog">Close</v-btn>
+<v-btn color="indigo" text @click="dialog = false">Cancel</v-btn>
+<v-btn color="indigo" text @click="dialog = false">Save</v-btn>
 </v-card-actions>
 </v-card>
 
@@ -134,19 +110,13 @@ export default {
         displayHeaders:null,
         displayStructure:null,
         snackbarStructureError:false,
-        snackbarStructureErrorText:'Invalid Timetable Structure. Upload another file.',
-        isBlocks:false,
-        color:null,
-        radioBlockColour:'radio-1'
+        snackbarStructureErrorText:'Invalid Timetable Structure. Upload another file.'
 
 
 
       }
     },
   methods: {
-    closeDialog() {
-      this.dialog=false;
-    },
     importFile() {
     
       if (this.chosenFile) { 
@@ -163,7 +133,6 @@ export default {
             for(let item of response.displayHeaders) this.displayHeaders.push({text:item,value:item,sortable:true});
             this.displayStructure=response.data;
             this.isValidStructure=true;
-            this.storeStructure();
           }
           else {
             this.snackbarStructureError=true;
@@ -176,18 +145,10 @@ export default {
       } 
 
     },
-    storeStructure() {
+    updateStructure() {
         //let structure=settings.processTimetableStructure(this.timetableStructure);
 
         //this.$store.dispatch('setTimetableWeeks',weeks);
-        this.isBlocks=true;
-    },
-    cancelStructure() {
-        this.isValidStructure=false;
-        this.isBlocks=false;
-    },
-    storeName() {
-
     }
   }
 

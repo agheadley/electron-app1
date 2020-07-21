@@ -38,7 +38,7 @@ let readTimetableStructure=(csvText,delim) =>{
 export {readTimetableStructure}
 
 let processTimetableStructure=(data,headers)=> {
-    let structure={isValid:true,weeks:[],blocks:[],data:[]};
+    let structure={isValid:true,displayHeaders:['id','title','week','block'],weeks:[],blocks:[],data:[]};
 
     
     
