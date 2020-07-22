@@ -7,9 +7,9 @@
 <v-row align="baseline">
 <v-col class="d-flex" cols="3">
 <v-text-field
-    v-model="settingsName"
+    v-model="settings.name"
     label="Timetable Name"
-    outlined
+    single-line
     @focus="snackbarName=true"
     readonly/>
 
@@ -31,7 +31,7 @@
 </v-col>
 <v-col class="d-flex d-print-none" cols="6">
  <v-btn-toggle v-model="toggle_years" mandatory title="years" color="indigo">
-     <template v-for="(item,i) in settingsYears">
+     <template v-for="(item,i) in settings.years">
      <v-btn v-if="item.code.length>0">{{item.code}}</v-btn>
      </template>
  </v-btn-toggle>
@@ -96,12 +96,12 @@ data() {
     }
 },
 computed : {
-    settingsName() {return this.$store.state.settings.name},
+    settings() {return this.$store.state.settings},
+    // necessary to have object Array for preset v-select
     settingsWeeks() {
         let arr=this.$store.state.settings.weeks.map((el,index)=>({id:index,name:el}));
         return arr;
     },
-    settingsYears() {return this.$store.state.settings.years},
     
 },
 methods: {

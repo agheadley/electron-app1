@@ -14,7 +14,10 @@ export default new Vuex.Store({
     mutations:{
         openSettings(state) {
             console.log('plugins/store/openSettings');
-            if('settings' in settings) state.settings=JSON.parse(localStorage.getItem('settings'));
+            if('settings' in localStorage) {
+                state.settings=JSON.parse(localStorage.getItem('settings'));
+                console.log('found localStorage : '+state.settings);
+            }
             else {
                 state.settings=settings.initialSettings;
                 localStorage.setItem('settings',JSON.stringify(state.settings));
@@ -27,27 +30,19 @@ export default new Vuex.Store({
             localStorage.removeItem('settings');
 
         },
-        
-        setTimetableName(state,txt) {
-            state.timetableName=txt;
-            localStorage.setItem('timetableName',txt);
+        setName(state,txt) {
+            state.settings.name=txt;
+            localStorage.setItem('settings',JSON.stringify(state.settings));
         },
-        setTimetableStructure(state,json) {
-            state.timetableWeeks=json;
-            localStorage.setItem('timetableStructure',JSON.stringify(json));
+        setBlockColor(state,blocks) {
+            state.settings.blocks=blocks;
+            console.log('plugins/store.js/setBlockColor');
+            console.log(state.settings.blocks);
+            localStorage.setItem('settings',JSON.stringify(state.settings));
+
         },
-        setTimetableBlockColor(state,blocks) {
-            state.timetableBlocks=blocks;
-            localStorage.setItem('timetableBlocks',JSON.stringify(blocks));
-        },
-        setTimetableYears(state,years) {
-            state.timetableYears=years;
-            localStorage.setItem('timetableYears',JSON.stringify(years));
-        },
-        
-        
     },
-  
+   
 
 
 });

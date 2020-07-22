@@ -20,7 +20,11 @@ let initialSettings={
         {nc:"1",code:""},
     ],
     weeks:['A'],
-    blocks:['A','B','C'],
+    blocks:[
+        {block:'A',color:"#eeeeee"},
+        {block:'B',color:"#eeeeee"},
+        {block:'C',color:"#eeeeee"},
+    ],
     periods:[
         {day:'M',per:'1',id:1,week:'A',block:'A'},
         {day:'M',per:'2',id:2,week:'A',block:'B'},
