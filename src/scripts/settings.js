@@ -1,5 +1,47 @@
 import * as csv from './csv'
 
+// 'blank' data for initial use - change in settings.
+
+let initialSettings={
+    name:"timetable1",
+    years:[
+        {nc:"13",code:"7"},
+        {nc:"12",code:"6"},
+        {nc:"11",code:"5"},
+        {nc:"10",code:"4"},
+        {nc:"9",code:"3"},
+        {nc:"8",code:"2"},
+        {nc:"7",code:"1"},
+        {nc:"6",code:"L1"},
+        {nc:"5",code:""},
+        {nc:"4",code:""},
+        {nc:"3",code:""},
+        {nc:"2",code:""},
+        {nc:"1",code:""},
+    ],
+    weeks:['A'],
+    blocks:['A','B','C'],
+    periods:[
+        {day:'M',per:'1',id:1,week:'A',block:'A'},
+        {day:'M',per:'2',id:2,week:'A',block:'B'},
+        {day:'M',per:'3',id:3,week:'A',block:'C'},
+        
+    ],
+    subjects:[
+        {dept:"ENG",sub:"E"},
+        {dept:"ENG",sub:"Eli"},
+        {dept:"MAT",sub:"M"},
+        {dept:"CHE",sub:"C"},
+    ],
+    rooms:[
+        {dept:"ENG",room:"E1"},
+        {dept:"ENG",room:"E2"},
+        {dept:"MAT",room:"M1"},
+        {dept:"CHE",room:"C1"},
+    ],
+};
+
+
 // timetable structure headers
 let TTStructureHeaderArr=['day','per','week','id','block','visible'];
 
@@ -19,6 +61,7 @@ let schoolYears=[
     {NCYear:"Special4",SchoolCode:""},
  
 ];
+
     
     
 
@@ -70,7 +113,7 @@ let checkValidYears=(years)=> {
 
 }
 
-export {readTimetableStructure,schoolYears,checkValidYears}
+export {readTimetableStructure,schoolYears,checkValidYears,initialSettings}
 
 
 

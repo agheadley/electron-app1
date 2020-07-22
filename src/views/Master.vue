@@ -3,38 +3,56 @@
 
 <v-container fluid>
 
-
-
+<!-- selection row -->
 <v-row align="baseline">
 <v-col class="d-flex" cols="3">
 <v-text-field
-    v-model="timetableName"
+    v-model="settingsName"
     label="Timetable Name"
     outlined
-    readonly>
-</v-text-field>
+    @focus="snackbarName=true"
+    readonly/>
+
 </v-col>
 
 <v-col class="d-flex" cols="2">
 
  <v-select
-          :items="weeks"
+          v-model="selectedWeek"
+          :items="settingsWeeks"
           label="Timetable Week"
-          outlined
-></v-select>
+          item-text="name"
+          item-value="id"
+          outlined/>
+
 </v-col>
 <v-col class="d-flex d-print-none" cols="1" >
     <p>Year Group</p>
 </v-col>
 <v-col class="d-flex d-print-none" cols="6">
- <v-btn-toggle v-model="toggle_weeks" mandatory title="cww" color="indigo">
-     <v-btn v-for="(item,i) in years">{{item}}</v-btn>
+ <v-btn-toggle v-model="toggle_years" mandatory title="years" color="indigo">
+     <template v-for="(item,i) in settingsYears">
+     <v-btn v-if="item.code.length>0">{{item.code}}</v-btn>
+     </template>
  </v-btn-toggle>
 
 </v-col>
 </v-row>
 
+<v-snackbar v-model="snackbarName" timeout="3000">
+    Adjust timetable name in settings.
+    <template v-slot:action="{ attrs }">
+    <v-btn color="red" text v-bind="attrs" @click="snackbarName = false">Close</v-btn>
+    </template>
+</v-snackbar>
+  
 
+
+<!-- /selection row-->
+
+<!-- display  -->
+
+<!--
 <v-row>
 <div class="tt-row">
 
@@ -57,6 +75,9 @@
 </div>
 </v-row>
 
+-->
+
+<!-- /display  -->
     
 </v-container>
 </template>
@@ -64,32 +85,27 @@
 <script>
   
 
-import * as csv from './../scripts/csv'
-
 export default {
 name: 'Master',
 data() {
     return{
-        message:'settings file',
-        toggle_weeks:0,
-        timetableNameRules: [v => v.length <= 25 || 'Max 25 characters'],
-        //timetableName:null,
-        years:['7','6','5','4','3','2','1','0','X'],
+        message:'',
+        toggle_years:0,
+        selectedWeek:0,
+        snackbarName:false,
     }
 },
 computed : {
-    //weeks() { return this.$store.getters.timetableWeeks}
-    weeks() {return this.$store.state.timetableWeeks},
-    blankRow() {return this.$store.state.timetableRow},
-    timetableName() {return this.$store.state.timetableName},
+    settingsName() {return this.$store.state.settings.name},
+    settingsWeeks() {
+        let arr=this.$store.state.settings.weeks.map((el,index)=>({id:index,name:el}));
+        return arr;
+    },
+    settingsYears() {return this.$store.state.settings.years},
+    
 },
 methods: {
     
-    onUploadFile(value) {
-        console.log('uploaded file data: '+value)
-        let response=csv.readCSV(value,',');
-        
-    },
 
 
 }

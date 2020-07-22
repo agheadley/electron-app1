@@ -104,7 +104,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('initialiseStore');
+    this.$store.commit('openSettings');
   },
   methods: {
     /* accessed via exit dialog now
