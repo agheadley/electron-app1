@@ -26,17 +26,18 @@
           outlined/>
 
 </v-col>
+
 <v-col class="d-flex d-print-none" cols="1" >
     <p>Year Group</p>
 </v-col>
 <v-col class="d-flex d-print-none" cols="6">
- <v-btn-toggle v-model="toggle_years" mandatory title="years" color="indigo">
+ <v-btn-toggle v-model="selectedYear" mandatory title="years" color="indigo">
      <template v-for="(item,i) in settings.years">
-     <v-btn v-if="item.code.length>0">{{item.code}}</v-btn>
+     <v-btn v-if="item.length>0">{{item}}</v-btn>
      </template>
  </v-btn-toggle>
-
 </v-col>
+
 </v-row>
 
 <v-snackbar v-model="snackbarName" timeout="3000">
@@ -45,7 +46,7 @@
     <v-btn color="red" text v-bind="attrs" @click="snackbarName = false">Close</v-btn>
     </template>
 </v-snackbar>
-  
+
 
 
 <!-- /selection row-->
@@ -90,7 +91,7 @@ name: 'Master',
 data() {
     return{
         message:'',
-        toggle_years:0,
+        selectedYear:0,
         selectedWeek:0,
         snackbarName:false,
     }

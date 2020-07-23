@@ -4,31 +4,17 @@ import * as csv from './csv'
 
 let initialSettings={
     name:"timetable1",
-    years:[
-        {nc:"13",code:"7"},
-        {nc:"12",code:"6"},
-        {nc:"11",code:"5"},
-        {nc:"10",code:"4"},
-        {nc:"9",code:"3"},
-        {nc:"8",code:"2"},
-        {nc:"7",code:"1"},
-        {nc:"6",code:"L1"},
-        {nc:"5",code:""},
-        {nc:"4",code:""},
-        {nc:"3",code:""},
-        {nc:"2",code:""},
-        {nc:"1",code:""},
-    ],
+    years:['13','12','11','10'],
     weeks:['A'],
     blocks:[
         {block:'A',color:"#eeeeee"},
         {block:'B',color:"#eeeeee"},
         {block:'C',color:"#eeeeee"},
     ],
-    periods:[
-        {day:'M',per:'1',id:1,week:'A',block:'A'},
-        {day:'M',per:'2',id:2,week:'A',block:'B'},
-        {day:'M',per:'3',id:3,week:'A',block:'C'},
+    lessons:[
+        {day:'M',period:'1',id:1,week:'A',block:'A'},
+        {day:'M',period:'2',id:2,week:'A',block:'B'},
+        {day:'M',period:'3',id:3,week:'A',block:'C'},
         
     ],
     subjects:[

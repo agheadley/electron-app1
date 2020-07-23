@@ -21,24 +21,12 @@
     label="Timetable Name"
     description="Name of current timetable model"
     outlined
-    :rules="nameRules"
-    counter="25"
-    @input="checkName">
+    :rules="[rules.name]"
+    maxlength="25"
+    counter
+    @input="removeInvalidName">
   </v-text-field>
   <br/>
-  <!--
-  <v-row>
-      <v-spacer></v-spacer>
-      <v-btn right @click="storeName">Store</v-btn>
-  </v-row>
-  -->
-  <v-snackbar v-model="snackbarName" timeout="3000">
-    Valid name required, before being stored.
-    <template v-slot:action="{ attrs }">
-    <v-btn color="red" text v-bind="attrs" @click="snackbarName = false">Close</v-btn>
-    </template>
-  </v-snackbar>
-
   
 
 <!-- /timetable name -->
@@ -46,8 +34,37 @@
 
 <!-- timetable structure -->
   
-  <h3>Week Structure</h3>
+  <h3>Lesson Structure</h3>
   <br/>
+  <template v-if="isLessons">
+  <v-data-table
+    :headers="lessonHeaders"
+    :items="settings.lessons"
+    :items-per-page="5"
+    class="elevation-1"
+  ></v-data-table>
+  <br/>
+  <v-row>
+      <v-spacer></v-spacer>
+      <v-btn cancel @click="isLessons=false">Change</v-btn>
+  </v-row>
+  </template>
+  <template v-if="!isLessons">
+  <v-alert type="info">Update lesson structure.</v-alert>
+  <v-file-input accept=".csv" 
+      label="Click here to upload a .csv file"
+      outlined
+      v-model="chosenFile">
+  </v-file-input>
+  <v-row>
+  <v-spacer></v-spacer>
+  <v-btn right @click="isLessons=true">Cancel</v-btn>
+  <v-btn right @click="importFile('lessons')">Upload</v-btn>
+  
+  </v-row>
+  </template>
+    
+    
   <!-- /timetable structure -->
   
   <!-- block colours -->
@@ -66,7 +83,6 @@
   <v-row>
   <v-col>
     <template v-for="(item,i) in this.settings.blocks">
-  
       <v-btn :color="item.color" @click="checkBlockColor(i)">
         <span style="width:100px;">{{item.block}}</span>
     </v-btn>
@@ -84,7 +100,25 @@
   
   <h3>Year Structure</h3>
   <br/>
-   
+  <v-alert type="info">Edit 'Year Codes'</v-alert>
+  <br/>
+  <template v-for="(item,i) in settings.years">
+    <v-text-field
+      v-model="settings.years[i]"
+      :rules="[rules.year]"
+      label="Year Code"
+      counter
+      maxlength="2"
+      @input="removeInvalidYear(i)">
+    </v-text-field>
+
+  </template> 
+
+  <v-btn @click="addYear" class="mx-2" fab dark small color="success">
+      <v-icon dark>mdi-plus</v-icon>
+  </v-btn>  
+  <br/>
+  <br/>
 <!-- /timetable years-->
 
 <!-- subject -->
@@ -102,10 +136,20 @@
 <!-- /rooms-->
 
 
+<!--
+  <v-snackbar v-model="snackbarName" timeout="3000">
+    Valid name required, before being stored.
+    <template v-slot:action="{ attrs }">
+    <v-btn color="red" text v-bind="attrs" @click="snackbarName = false">Close</v-btn>
+    </template>
+  </v-snackbar>
+  -->
+  
+
 </v-card-text>
 <v-card-actions>
-<v-btn color="indigo" text @click="closeDialog">Close</v-btn>
-
+<v-btn color="indigo" text @click="closeDialog">Save</v-btn>
+<v-btn color="indigo" text @click="resetAll">Reset</v-btn>
 </v-card-actions>
 </v-card>
 
@@ -127,37 +171,65 @@ export default {
 
         settings:null,
 
-        nameRules:[v => v.length <= 25 && v.length>0 || 'Non-blank, max 25 characters'],
-        snackbarName:false,
+        chosenFile:null,
         
         isBlocks:false,
         color:null,
+        isLessons:true,
+
+        rules: {
+          year: value => !!value && value.length <= 2 || 'Max 2 characters',
+          name: value => !!value && value.length <= 25 || 'Max 25 characters',
+        },
+
+        lessonHeaders:[],
+
+  
+
       }
   },
   created() {
     //get copy of $store.state.settings
     this.settings=JSON.parse(JSON.stringify(this.$store.state.settings));
-    // populate blocks
+  
     if(this.settings.blocks.length>0) this.isBlocks=true;
+
+    let keys=Object.keys(this.settings.lessons[0]);
+    this.lessonHeaders=keys.map(el=>({text:el,align:"start",sortable:true,value:el}));
+    console.log(this.lessonHeaders,this.settings.lessons);
+
   },
   methods: {
     openDialog() {
       this.dialog=true;
       console.log(this.settings.blocks);
     },
+    resetAll() {
+      this.$store.commit('resetSettings');
+      this.settings=JSON.parse(JSON.stringify(this.$store.state.settings));
+      // populate blocks
+      if(this.settings.blocks.length>0) this.isBlocks=true;
+    },
     closeDialog() {
+      this.$store.commit('saveSettings',this.settings);
       this.dialog=false;
     },
-    checkName() {
-      console.log('components/SettingsDialog.vue/chekName()');
-      let txt=this.settings.name.replace(/ /g, "");
-      if(txt.length>0 && txt.length<25) this.$store.commit('setName',txt);
-      else this.snackbarName=true;  
+    removeInvalidName() {
+      this.settings.name=this.settings.name.replace(/[^A-Za-z0-9-]/, "");
+    },
+    removeInvalidYear(i) {
+      this.settings.years[i]=this.settings.years[i].replace(/[^A-Za-z0-9-]/, "");
+    },
+    addYear() {
+      this.settings.years.push('X');
     },
     checkBlockColor(index) {
       this.settings.blocks[index].color=this.color.hex;
-      console.log(this.color.hex,this.settings.blocks[index]);
-      this.$store.commit('setBlockColor',this.settings.blocks);
+      //console.log(this.color.hex,this.settings.blocks[index]);
+      //this.$store.commit('setBlockColor',this.settings.blocks);
+    },
+    importFile(type) {
+      console.log(type);
     },
     
   }

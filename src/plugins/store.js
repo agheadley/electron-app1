@@ -23,13 +23,19 @@ export default new Vuex.Store({
                 localStorage.setItem('settings',JSON.stringify(state.settings));
             }
         },
-        deleteSettings(state) {
-            let keys=Object.keys(state);
-            console.log(keys);
-            for(let item of keys) state[item]=null;
+        saveSettings(state,settings) {
+            state.settings=settings;
+            localStorage.setItem('settings',JSON.stringify(state.settings));
+            console.log("store.js : Settings saved to 'state' and 'localStorage'");
+        },
+        resetSettings(state) {
             localStorage.removeItem('settings');
+            state.settings=settings.initialSettings;
+            localStorage.setItem('settings',JSON.stringify(state.settings));
 
         },
+
+        /*
         setName(state,txt) {
             state.settings.name=txt;
             localStorage.setItem('settings',JSON.stringify(state.settings));
@@ -41,6 +47,7 @@ export default new Vuex.Store({
             localStorage.setItem('settings',JSON.stringify(state.settings));
 
         },
+        */
     },
    
 
