@@ -59,7 +59,7 @@
   <v-row>
   <v-spacer></v-spacer>
   <v-btn right @click="isLessons=true">Cancel</v-btn>
-  <v-btn right @click="importFile('lessons')">Upload</v-btn>
+  <v-btn right @click="importFile('Lessons')">Upload</v-btn>
   
   </v-row>
   </template>
@@ -136,14 +136,14 @@
 <!-- /rooms-->
 
 
-<!--
-  <v-snackbar v-model="snackbarName" timeout="3000">
-    Valid name required, before being stored.
+
+<v-snackbar v-model="snackbar" timeout="5000">
+    {{snackbarMessage}}
     <template v-slot:action="{ attrs }">
-    <v-btn color="red" text v-bind="attrs" @click="snackbarName = false">Close</v-btn>
+    <v-btn color="red" text v-bind="attrs" @click="snackbar= false">Close</v-btn>
     </template>
-  </v-snackbar>
-  -->
+</v-snackbar>
+
   
 
 </v-card-text>
@@ -168,6 +168,8 @@ export default {
   data () {
       return {
         dialog:false,
+        snackbar:false,
+        snackbarMessage:null,
 
         settings:null,
 
@@ -228,8 +230,31 @@ export default {
       //console.log(this.color.hex,this.settings.blocks[index]);
       //this.$store.commit('setBlockColor',this.settings.blocks);
     },
+    checkLessons(data) {
+      console.log('SettingsDialog.vue : checkLessons()');
+      this.settings.lessons=data;
+      this.isLessons=true;
+
+    },
     importFile(type) {
-      console.log(type);
+      console.log('importing : ',type);
+      if (this.chosenFile) { 
+        let reader = new FileReader();
+        reader.readAsText(this.chosenFile);
+        reader.onload = () => {
+          this.data = reader.result;
+          console.log(this.data);
+          let response=null;
+          if(type==='Lessons') response=settings.readTimetableStructure(reader.result);
+          
+          if(response!=='error') this.checkLessons(response);
+            else {
+              this.snackbarMessage="Invalid "+type+" .csv file. Please cancel / upload a valid file.";
+              this.snackbar=true;
+            }
+
+        }
+      }
     },
     
   }
