@@ -19,7 +19,7 @@
 
  <v-select
           v-model="selectedWeek"
-          :items="settingsWeeks"
+          :items="settings.weeks"
           label="Timetable Week"
           item-text="name"
           item-value="id"
@@ -99,11 +99,6 @@ data() {
 computed : {
     settings() {return this.$store.state.settings},
     // necessary to have object Array for preset v-select
-    settingsWeeks() {
-        let arr=this.$store.state.settings.weeks.map((el,index)=>({id:index,name:el}));
-        return arr;
-    },
-    
 },
 methods: {
     

@@ -119,12 +119,41 @@
   </v-btn>  
   <br/>
   <br/>
+  <br/>
 <!-- /timetable years-->
 
 <!-- subject -->
   
   <h3>Subject/Departments</h3>
   <br/>
+  <template v-if="isSubjects">
+  <v-data-table
+    :headers="subjectHeaders"
+    :items="settings.subjects"
+    :items-per-page="5"
+    class="elevation-1"
+  ></v-data-table>
+  <br/>
+  <v-row>
+      <v-spacer></v-spacer>
+      <v-btn cancel @click="isSubjects=false">Change</v-btn>
+  </v-row>
+  </template>
+  <template v-if="!isSubjects">
+  <v-alert type="info">Update subject list.</v-alert>
+  <v-file-input accept=".csv" 
+      label="Click here to upload a .csv file"
+      outlined
+      v-model="chosenFile">
+  </v-file-input>
+  <v-row>
+  <v-spacer></v-spacer>
+  <v-btn right @click="isSubjects=true">Cancel</v-btn>
+  <v-btn right @click="importFile('Subjects')">Upload</v-btn>
+  
+  </v-row>
+  </template>
+  
    
 <!-- /subjects-->
 
@@ -132,6 +161,34 @@
   
   <h3>Rooms/Departments</h3>
   <br/>
+  <template v-if="isRooms">
+  <v-data-table
+    :headers="roomHeaders"
+    :items="settings.rooms"
+    :items-per-page="5"
+    class="elevation-1"
+  ></v-data-table>
+  <br/>
+  <v-row>
+      <v-spacer></v-spacer>
+      <v-btn cancel @click="isRooms=false">Change</v-btn>
+  </v-row>
+  </template>
+  <template v-if="!isRooms">
+  <v-alert type="info">Update room list.</v-alert>
+  <v-file-input accept=".csv" 
+      label="Click here to upload a .csv file"
+      outlined
+      v-model="chosenFile">
+  </v-file-input>
+  <v-row>
+  <v-spacer></v-spacer>
+  <v-btn right @click="isRooms=true">Cancel</v-btn>
+  <v-btn right @click="importFile('Rooms')">Upload</v-btn>
+  
+  </v-row>
+  </template>
+  
    
 <!-- /rooms-->
 
@@ -174,17 +231,22 @@ export default {
         settings:null,
 
         chosenFile:null,
-        
-        isBlocks:false,
-        color:null,
-        isLessons:true,
 
         rules: {
           year: value => !!value && value.length <= 2 || 'Max 2 characters',
           name: value => !!value && value.length <= 25 || 'Max 25 characters',
         },
+        
+        isBlocks:false,
+        color:null,
+        
+        isLessons:true,
+        isSubjects:true,
+        isRooms:true,
 
         lessonHeaders:[],
+        subjectHeaders:[],
+        roomHeaders:[],
 
   
 
@@ -199,6 +261,13 @@ export default {
     let keys=Object.keys(this.settings.lessons[0]);
     this.lessonHeaders=keys.map(el=>({text:el,align:"start",sortable:true,value:el}));
     console.log(this.lessonHeaders,this.settings.lessons);
+
+    keys=Object.keys(this.settings.subjects[0]);
+    this.subjectHeaders=keys.map(el=>({text:el,align:"start",sortable:true,value:el}));
+
+    keys=Object.keys(this.settings.rooms[0]);
+    this.roomHeaders=keys.map(el=>({text:el,align:"start",sortable:true,value:el}));
+    
 
   },
   methods: {
@@ -227,14 +296,31 @@ export default {
     },
     checkBlockColor(index) {
       this.settings.blocks[index].color=this.color.hex;
-      //console.log(this.color.hex,this.settings.blocks[index]);
-      //this.$store.commit('setBlockColor',this.settings.blocks);
     },
     checkLessons(data) {
       console.log('SettingsDialog.vue : checkLessons()');
       this.settings.lessons=data;
+      //let blocks=data.map(el=>el.block);
+      let  blocks=[...new Set(data.map(el=>el.block).filter(el=>el!==""))];
+      this.settings.blocks=blocks.sort().map(el=>({block:el,color:settings.initialSettings.blocks[0].color}));
+      //let weeks=data.map(el=>el.week);
+      let weeks=[...new Set(data.map(el=>el.week).filter(el=>el!==""))];
+      this.settings.weeks=weeks.sort().map((el,index)=>({name:el,id:index}));
+      
+      
+      console.log(blocks);
       this.isLessons=true;
 
+    },
+    checkSubjects(data) {
+      console.log('SettingsDialog.vue : checkSubjects()');
+      this.settings.subjects=data;
+      this.isSubjects=true;
+    },
+    checkRooms(data) {
+      console.log('SettingsDialog.vue : checkRooms()');
+      this.settings.rooms=data;
+      this.isRooms=true;
     },
     importFile(type) {
       console.log('importing : ',type);
@@ -245,14 +331,30 @@ export default {
           this.data = reader.result;
           console.log(this.data);
           let response=null;
-          if(type==='Lessons') response=settings.readTimetableStructure(reader.result);
-          
-          if(response!=='error') this.checkLessons(response);
-            else {
-              this.snackbarMessage="Invalid "+type+" .csv file. Please cancel / upload a valid file.";
-              this.snackbar=true;
-            }
+          let error=false;
 
+          if(type==='Lessons') {
+            response=settings.readTimetableStructure(reader.result);
+            if(response!=='error') this.checkLessons(response);
+            else error=true;
+          }
+          if(type==='Subjects') {
+            response=settings.readSubjects(reader.result);
+            if(response!=='error') this.checkSubjects(response);
+            else error=true;
+          }
+          if(type==='Rooms') {
+            response=settings.readRooms(reader.result);
+            if(response!=='error') this.checkRooms(response);
+            else error=true;
+          }
+          if(error) {
+            this.snackbarMessage="Invalid "+type+" .csv file. Please cancel / upload a valid file.";
+              this.snackbar=true;
+          } else {
+            this.chosenFile=null;
+          }
+          
         }
       }
     },
